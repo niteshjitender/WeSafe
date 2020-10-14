@@ -13,8 +13,16 @@ public class SplashScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent intent_main = new Intent(getApplicationContext(), SplashScreen_main.class);
-        startActivity(intent_main);
-        finish();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                Intent intent_main = new Intent(getApplicationContext(), SplashScreen_main.class);
+                startActivity(intent_main);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                finish();
+
+            }
+        }, 2000);
     }
 }
