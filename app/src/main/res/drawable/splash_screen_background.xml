@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <item android:drawable="@drawable/splashscreen" />
+<!--    android:background="@drawable/splashscreen">-->
+    <item android:drawable="@drawable/splashscreen"
+        android:gravity="center"/>
 <!--    <item-->
 <!--        android:width="200dp"-->
 <!--        android:height="200dp"-->
