@@ -5,10 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -17,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     EditText etEmailLogin, etPasswordLogin ;
     TextInputLayout tilPasswordLogin;
     ProgressBar progressBarLogin ;
+    TextView tvRegister ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         etEmailLogin = findViewById(R.id.etEmailLogin) ;
         etPasswordLogin = findViewById(R.id.etPasswordLogin) ;
         tilPasswordLogin = findViewById(R.id.tilPasswordLogin) ;
+        tvRegister = findViewById(R.id.tvRegister) ;
         progressBarLogin = findViewById(R.id.progressBarLogin);
         progressBarLogin.setVisibility(View.GONE);
 
@@ -32,6 +37,20 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Login();
+            }
+        });
+        tvRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Intent intent_register = new Intent(getApplicationContext(), RegisterActivity.class) ;
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressBarLogin.setVisibility(View.GONE);
+                        startActivity(intent_register);
+                        finish();
+                    }
+                }, 1500);
             }
         });
     }
@@ -113,15 +132,8 @@ public class MainActivity extends AppCompatActivity {
             progressBarLogin.setVisibility(View.GONE);
         }
         if (is_expressions_valid) {
-            final Intent intent_register = new Intent(getApplicationContext(), RegisterActivity.class) ;
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    progressBarLogin.setVisibility(View.GONE);
-                    startActivity(intent_register);
-                    finish();
-                }
-            }, 1500);
+            Toast.makeText(this,"All expression are valid", Toast.LENGTH_LONG).show();
+            Log.wtf("MainActivity","Internal Expressions are valid") ;
         }
     }
 }

@@ -39,6 +39,14 @@
             android:textColor="@color/colorPrimaryDark"
             android:textSize="50sp" />
 
+        <ImageView
+            android:id="@+id/iv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="2dp"
+            app:srcCompat="?android:attr/scrollbarThumbVertical" />
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilEmailLogin"
             android:layout_width="250dp"
