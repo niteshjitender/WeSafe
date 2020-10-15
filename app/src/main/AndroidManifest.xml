@@ -9,8 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SplashScreen_main"></activity>
-        <!-- Splash screen activity with splashtheme -->
+        <activity android:name=".RegisterActivity"></activity>
+        <activity android:name=".SplashScreen_main" /> <!-- Splash screen activity with splashtheme -->
         <activity
             android:name=".SplashScreen"
             android:theme="@style/SplashTheme">

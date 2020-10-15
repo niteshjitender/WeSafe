@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="65dp"
         android:layout_marginEnd="15dp"
         android:background="@drawable/rect_diag_bg"
         android:orientation="vertical"
@@ -32,18 +32,21 @@
             android:layout_marginBottom="0dp"
             android:clickable="false"
             android:fontFamily="@font/wrexham"
+            android:shadowColor="#000000"
+            android:shadowDx="-20"
+            android:shadowDy="20"
             android:text="WeSafe"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="50sp" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilEmailLogin"
-            android:layout_width="300dp"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="40dp"
             android:layout_marginTop="50dp"
-            android:layout_marginEnd="20dp"
+            android:layout_marginEnd="40dp"
             android:textColorHint="@color/light_blue">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -58,12 +61,12 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilPasswordLogin"
-            android:layout_width="300dp"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="40dp"
             android:layout_marginTop="30dp"
-            android:layout_marginEnd="20dp"
+            android:layout_marginEnd="40dp"
             android:textColorHint="@color/light_blue"
             app:passwordToggleEnabled="true">
 
@@ -82,6 +85,7 @@
         android:id="@+id/linearLayout3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="172dp"
         android:background="@drawable/circl_rect"
         android:gravity="center"
@@ -91,7 +95,7 @@
         app:layout_constraintHorizontal_bias="0.066"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout1"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintVertical_bias="0.0">
 
         <Button
             android:id="@+id/btnLogin"
@@ -99,7 +103,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="11dp"
             android:layout_marginTop="0dp"
-            android:layout_marginBottom="18dp"
+            android:layout_marginBottom="2dp"
             android:paddingLeft="30dp"
             android:paddingTop="6dp"
             android:paddingRight="30dp"
@@ -108,19 +112,29 @@
             android:textSize="17sp"
             app:cornerRadius="20dp" />
 
+        <TextView
+            android:id="@+id/tvRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="34dp"
+            android:clickable="true"
+            android:text="Register Here"
+            android:textColor="@color/light_green"
+            android:textSize="14sp" />
+
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/tvRegister"
+    <ProgressBar
+        android:id="@+id/progressBarLogin"
+        style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:clickable="true"
-        android:text="Register Here"
-        android:textColor="@color/light_green"
-        android:textSize="14sp"
+        android:layout_marginStart="39dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="137dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.31"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout3"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
