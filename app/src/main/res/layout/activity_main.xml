@@ -110,7 +110,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="11dp"
-            android:layout_marginTop="0dp"
+            android:layout_marginTop="2dp"
             android:layout_marginBottom="2dp"
             android:paddingLeft="30dp"
             android:paddingTop="6dp"
@@ -124,11 +124,11 @@
             android:id="@+id/tvRegister"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="34dp"
+            android:layout_marginLeft="30dp"
             android:clickable="true"
             android:text="Register Here"
             android:textColor="@color/light_green"
-            android:textSize="14sp" />
+            android:textSize="18sp" />
 
     </LinearLayout>
 

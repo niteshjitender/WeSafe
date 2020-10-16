@@ -48,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
                     public void run() {
                         progressBarLogin.setVisibility(View.GONE);
                         startActivity(intent_register);
-                        finish();
                     }
                 }, 1500);
             }
@@ -132,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
             progressBarLogin.setVisibility(View.GONE);
         }
         if (is_expressions_valid) {
-            Toast.makeText(this,"All expression are valid", Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"Login Successful", Toast.LENGTH_LONG).show();
             Log.wtf("MainActivity","Internal Expressions are valid") ;
         }
     }
