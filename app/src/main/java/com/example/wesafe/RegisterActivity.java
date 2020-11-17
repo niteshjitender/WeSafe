@@ -17,17 +17,17 @@ public class RegisterActivity extends AppCompatActivity {
     Button btnRegister, btnVerify ;
     EditText etUserNameRegister,etEmailRegister,etOTP,etPasswordRegister,etPasswordRegister2,etContactRegister,etContactRegister2,etContactRegister3 ;
     ProgressBar progressBarRegister ;
-    LinearLayout linearlayout_otp ;
+//    LinearLayout linearlayout_otp ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         btnRegister = findViewById(R.id.btnRegister) ;
-        btnVerify = findViewById(R.id.btnVerify) ;
+//        btnVerify = findViewById(R.id.btnVerify) ;
         etUserNameRegister = findViewById(R.id.etUserNameRegister) ;
         etEmailRegister = findViewById(R.id.etEmailRegister) ;
-        etOTP = findViewById(R.id.etOTP) ;
+//        etOTP = findViewById(R.id.etOTP) ;
 
         etPasswordRegister = findViewById(R.id.etPasswordRegister) ;
         etPasswordRegister2 = findViewById(R.id.etPasswordRegister2) ;
@@ -36,11 +36,11 @@ public class RegisterActivity extends AppCompatActivity {
         etContactRegister2 = findViewById(R.id.etContactRegister2) ;
         etContactRegister3 = findViewById(R.id.etContactRegister3) ;
 
-        progressBarRegister = findViewById(R.id.progressBarRegister) ;
-        progressBarRegister.setVisibility(View.GONE);
+//        progressBarRegister = findViewById(R.id.progressBarRegister) ;
+//        progressBarRegister.setVisibility(View.GONE);
 
-        linearlayout_otp = findViewById(R.id.linearlayout_otp) ;
-        linearlayout_otp.setVisibility(View.GONE);
+//        linearlayout_otp = findViewById(R.id.linearlayout_otp) ;
+//        linearlayout_otp.setVisibility(View.GONE);
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,64 +48,64 @@ public class RegisterActivity extends AppCompatActivity {
                 registerUser();
             }
         });
-        btnVerify.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),"OTP verified succesfully",Toast.LENGTH_LONG).show();
-                Log.wtf("RegisterActivity","OTP verified succesfully");
-            }
-        });
-        //For OTP
-        etEmailRegister.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-                if (hasFocus) {
-                    Log.wtf("RegisterActivity","Focused on email address");
-                } else {
-                    Log.wtf("RegisterActivity","Lost the focus on email address");
-                    Toast.makeText(getApplicationContext(),"OTP sent",Toast.LENGTH_LONG).show();
-                    if(validateEmail())
-                        linearlayout_otp.setVisibility(View.VISIBLE);
-                }
-            }
-        });
+//        btnVerify.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(getApplicationContext(),"OTP verified succesfully",Toast.LENGTH_LONG).show();
+//                Log.wtf("RegisterActivity","OTP verified succesfully");
+//            }
+//        });
+//        //For OTP
+//        etEmailRegister.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View view, boolean hasFocus) {
+//                if (hasFocus) {
+//                    Log.wtf("RegisterActivity","Focused on email address");
+//                } else {
+//                    Log.wtf("RegisterActivity","Lost the focus on email address");
+//                    Toast.makeText(getApplicationContext(),"OTP sent",Toast.LENGTH_LONG).show();
+//                    if(validateEmail())
+//                        linearlayout_otp.setVisibility(View.VISIBLE);
+//                }
+//            }
+//        });
     }
 
     private void registerUser(){
-        progressBarRegister.setVisibility(View.VISIBLE);
+//        progressBarRegister.setVisibility(View.VISIBLE);
         boolean is_expressions_valid = true ;
         if(!validateUsername()){
-            progressBarRegister.setVisibility(View.GONE);
+//            progressBarRegister.setVisibility(View.GONE);
             is_expressions_valid = false;
         }
         if(!validateEmail()){
-            progressBarRegister.setVisibility(View.GONE);
+//            progressBarRegister.setVisibility(View.GONE);
             is_expressions_valid = false;
         }
         if(!validatePassword()){
-            progressBarRegister.setVisibility(View.GONE);
+//            progressBarRegister.setVisibility(View.GONE);
             is_expressions_valid = false;
         }
         if(!matchPassword()){
-            progressBarRegister.setVisibility(View.GONE);
+//            progressBarRegister.setVisibility(View.GONE);
             is_expressions_valid = false;
         }
         if(!checkContact()){
-            progressBarRegister.setVisibility(View.GONE);
+//            progressBarRegister.setVisibility(View.GONE);
             is_expressions_valid = false ;
         }
 
 
         if(is_expressions_valid) {
-            final Intent intent_registered = new Intent(getApplicationContext(), MainActivity.class) ;
+            final Intent intent_registered = new Intent(getApplicationContext(), RegisterActivity2.class) ;
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    progressBarRegister.setVisibility(View.GONE);
-                    Toast.makeText(getApplicationContext(),"Registration Successful", Toast.LENGTH_LONG).show();
+//                    progressBarRegister.setVisibility(View.GONE);
+                    Toast.makeText(getApplicationContext(),"Registering...", Toast.LENGTH_LONG).show();
                     Log.wtf("RegisterActivity","Internal Expressions are valid") ;
                     startActivity(intent_registered);
-                    finish();
+//                    finish();
                 }
             }, 1500);
         }

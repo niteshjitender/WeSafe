@@ -113,28 +113,8 @@
                         android:layout_marginTop="0dp"
                         android:layout_marginEnd="0dp"
                         android:textColorHint="@color/light_blue"
-                        android:visibility="visible">
+                        android:visibility="visible"/>
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/etOTP"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="40dp"
-                            android:layout_marginTop="0dp"
-                            android:hint="OTP"
-                            android:inputType="number" />
-
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <Button
-                        android:id="@+id/btnVerify"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="30dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="40dp"
-                        android:text="Verify"
-                        app:cornerRadius="20dp" />
                 </LinearLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -262,57 +242,35 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginStart="25dp"
                     android:layout_marginEnd="25dp"
                     android:layout_marginBottom="11dp"
                     android:orientation="horizontal"
                     android:weightSum="4">
 
                     <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:background="@drawable/registration_base"
                         android:orientation="vertical">
 
-                        <LinearLayout
+                        <Button
+                            android:id="@+id/btnRegister"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="right"
-                            android:background="@drawable/registration_base"
-                            android:orientation="vertical">
-
-                            <Button
-                                android:id="@+id/btnRegister"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="28dp"
-                                android:layout_marginTop="6dp"
-                                android:paddingLeft="22dp"
-                                android:paddingTop="8dp"
-                                android:paddingRight="22dp"
-                                android:paddingBottom="7dp"
-                                android:text="Register"
-                                android:textSize="17sp"
-                                app:cornerRadius="20dp" />
-                        </LinearLayout>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginEnd="5dp"
-                        android:layout_weight="3"
-                        android:orientation="vertical">
-
-                        <ProgressBar
-                            android:id="@+id/progressBarRegister"
-                            style="?android:attr/progressBarStyle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="right" />
+                            android:layout_marginStart="28dp"
+                            android:layout_marginTop="6dp"
+                            android:paddingLeft="22dp"
+                            android:paddingTop="8dp"
+                            android:paddingRight="22dp"
+                            android:paddingBottom="7dp"
+                            android:text="Register"
+                            android:textSize="17sp"
+                            app:cornerRadius="20dp" />
                     </LinearLayout>
 
                 </LinearLayout>
