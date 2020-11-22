@@ -11,43 +11,65 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-public class RegisterActivity2 extends AppCompatActivity {
+import com.example.wesafe.UtilService.ApiCall;
+import com.example.wesafe.UtilService.GetResult;
+
+import java.util.HashMap;
+
+public class RegisterActivity2 extends AppCompatActivity{
     ProgressBar progressBarRegister2 ;
     Button btnVerifyOTP ;
-    EditText etOTPVerfiy ;
+    EditText etOTPVerify ;
+    ApiCall apiCall;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register2);
 
         progressBarRegister2 = findViewById(R.id.progressBarRegister2) ;
-        etOTPVerfiy = findViewById(R.id.etOTPVerfiy) ;
+        etOTPVerify = findViewById(R.id.etOTPVerfiy) ;
         btnVerifyOTP = findViewById(R.id.btnVerifyOTP) ;
         progressBarRegister2.setVisibility(View.GONE);
-
+        apiCall=new ApiCall(this);
         btnVerifyOTP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(verifyOTP()){
-                    final Intent intent_registered = new Intent(getApplicationContext(), MainActivity.class) ;
-                    Toast.makeText(getApplicationContext(),"Registeration Succesful", Toast.LENGTH_LONG).show();
-                    Log.wtf("RegisterActivity","Internal Expressions are valid") ;
-                    startActivity(intent_registered);
-                    finish();
+                    sendOTP(v);
                 }
             }
         });
     }
 
     private boolean verifyOTP(){
-        String otp = etOTPVerfiy.getText().toString();
+        String otp = etOTPVerify.getText().toString();
         progressBarRegister2.setVisibility(View.VISIBLE);
         boolean exact_result = true ;
-        if(otp.length() != 4){
-            etOTPVerfiy.setError("OTP must be of 4 digits");
+        if(otp.length() != 6){
+            etOTPVerify.setError("OTP must be of 6 digits");
             exact_result = false ;
         }
         progressBarRegister2.setVisibility(View.GONE);
         return exact_result ;
+    }
+    private void sendOTP(View v)
+    {
+        String otp = etOTPVerify.getText().toString();
+        progressBarRegister2.setVisibility(View.VISIBLE);
+        HashMap<String,String> params=new HashMap<>();
+        params.put("code",otp);
+        String EndPoint="http://10.0.2.2:8080/users/optVerify";
+        //String EndPoint="http://192.168.43.80:8080/users/optVerify";
+        apiCall.VerifiedPostCall(params, EndPoint, new GetResult() {
+            @Override
+            public void onSuccess(boolean check) {
+                if(check)
+                {
+                    startActivity(new Intent(RegisterActivity2.this,HomeActivity.class));
+                    finish();
+                }
+            }
+        });
+        progressBarRegister2.setVisibility(View.GONE);
     }
 }

@@ -3,6 +3,7 @@ package com.example.wesafe;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -13,10 +14,16 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-public class RegisterActivity extends AppCompatActivity {
+import com.example.wesafe.UtilService.ApiCall;
+import com.example.wesafe.UtilService.GetResult;
+
+import java.util.HashMap;
+
+public class RegisterActivity extends AppCompatActivity{
     Button btnRegister, btnVerify ;
-    EditText etUserNameRegister,etEmailRegister,etOTP,etPasswordRegister,etPasswordRegister2,etContactRegister,etContactRegister2,etContactRegister3 ;
+    EditText etUserNameRegister,etPhoneNumberRegister,etOTP,etPasswordRegister,etPasswordRegister2,etContactRegister,etContactRegister2,etContactRegister3 ;
     ProgressBar progressBarRegister ;
+    ApiCall apiCall;
 //    LinearLayout linearlayout_otp ;
 
     @Override
@@ -26,7 +33,7 @@ public class RegisterActivity extends AppCompatActivity {
         btnRegister = findViewById(R.id.btnRegister) ;
 //        btnVerify = findViewById(R.id.btnVerify) ;
         etUserNameRegister = findViewById(R.id.etUserNameRegister) ;
-        etEmailRegister = findViewById(R.id.etEmailRegister) ;
+        etPhoneNumberRegister = findViewById(R.id.etPhoneNumber) ;
 //        etOTP = findViewById(R.id.etOTP) ;
 
         etPasswordRegister = findViewById(R.id.etPasswordRegister) ;
@@ -35,6 +42,7 @@ public class RegisterActivity extends AppCompatActivity {
         etContactRegister = findViewById(R.id.etContactRegister) ;
         etContactRegister2 = findViewById(R.id.etContactRegister2) ;
         etContactRegister3 = findViewById(R.id.etContactRegister3) ;
+        apiCall= new ApiCall(this);
 
 //        progressBarRegister = findViewById(R.id.progressBarRegister) ;
 //        progressBarRegister.setVisibility(View.GONE);
@@ -78,7 +86,7 @@ public class RegisterActivity extends AppCompatActivity {
 //            progressBarRegister.setVisibility(View.GONE);
             is_expressions_valid = false;
         }
-        if(!validateEmail()){
+        if(false){
 //            progressBarRegister.setVisibility(View.GONE);
             is_expressions_valid = false;
         }
@@ -97,20 +105,33 @@ public class RegisterActivity extends AppCompatActivity {
 
 
         if(is_expressions_valid) {
-            final Intent intent_registered = new Intent(getApplicationContext(), RegisterActivity2.class) ;
-            new Handler().postDelayed(new Runnable() {
+            String username = etUserNameRegister.getText().toString();
+            String phonenumber= etPhoneNumberRegister.getText().toString();
+            String password = etPasswordRegister.getText().toString();
+            String emergency_contact1 = etContactRegister.getText().toString();
+            String emergency_contact2 = etContactRegister2.getText().toString();
+            String emergency_contact3 = etContactRegister3.getText().toString();
+            HashMap<String,String> params=new HashMap<>();
+            params.put("username",username);
+            params.put("phonenumber",phonenumber);
+            params.put("password",password);
+            params.put("emergencyContact1",emergency_contact1);
+            params.put("emergencyContact2",emergency_contact2);
+            params.put("emergencyContact3",emergency_contact3);
+            params.put("channel","sms");
+            String Endpoint="http://10.0.2.2:8080/users/signup";
+            //String Endpoint="http://192.168.43.80:8080/users/signup";
+            apiCall.PostCall(params, Endpoint, new GetResult() {
                 @Override
-                public void run() {
-//                    progressBarRegister.setVisibility(View.GONE);
-                    Toast.makeText(getApplicationContext(),"Registering...", Toast.LENGTH_LONG).show();
-                    Log.wtf("RegisterActivity","Internal Expressions are valid") ;
-                    startActivity(intent_registered);
-//                    finish();
+                public void onSuccess(boolean check) {
+                    if(check)
+                    {
+                        startActivity(new Intent(RegisterActivity.this,RegisterActivity2.class));
+                    }
                 }
-            }, 1500);
+            });
         }
     }
-
     //Expression Validation
     private Boolean validateUsername() {
         String val = etUserNameRegister.getText().toString();
@@ -131,23 +152,23 @@ public class RegisterActivity extends AppCompatActivity {
             return true;
         }
     }
-    private Boolean validateEmail() {
-        String val = etEmailRegister.getText().toString();
-        Log.wtf("RegisterActivity","email" + " " + val);
-        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
-
-        if (val.isEmpty()) {
-            etEmailRegister.setError("Field cannot be empty");
-            return false;
-        } else if (!val.matches(emailPattern)) {
-            etEmailRegister.setError("Invalid email address");
-            return false;
-        } else {
-            etEmailRegister.setError(null);
-//            etEmail.setErrorEnabled(false);
-            return true;
-        }
-    }
+//    private Boolean validateEmail() {
+//        String val = etEmailRegister.getText().toString();
+//        Log.wtf("RegisterActivity","email" + " " + val);
+//        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+//
+//        if (val.isEmpty()) {
+//            etEmailRegister.setError("Field cannot be empty");
+//            return false;
+//        } else if (!val.matches(emailPattern)) {
+//            etEmailRegister.setError("Invalid email address");
+//            return false;
+//        } else {
+//            etEmailRegister.setError(null);
+////            etEmail.setErrorEnabled(false);
+//            return true;
+//        }
+//    }
 
     private Boolean validatePassword() {
         String val = etPasswordRegister.getText().toString();
@@ -168,7 +189,6 @@ public class RegisterActivity extends AppCompatActivity {
     private Boolean matchPassword(){
         String val1 = etPasswordRegister.getText().toString();
         String val2 = etPasswordRegister2.getText().toString();
-        Log.wtf("RegisterActivity","hello "+val1 + " " + val2);
         if(val1.equals(val2)){
 
             etPasswordRegister2.setError(null);
@@ -184,7 +204,7 @@ public class RegisterActivity extends AppCompatActivity {
         String contact1 = etContactRegister.getText().toString();
         String contact2 = etContactRegister2.getText().toString();
         String contact3 = etContactRegister3.getText().toString();
-
+        String phonenumber = etPhoneNumberRegister.getText().toString();
         boolean exact_result = true ;
         if(contact1.length() != 10){
             Log.wtf("RegisterActivity","length"+contact1.length());
@@ -200,9 +220,21 @@ public class RegisterActivity extends AppCompatActivity {
             etContactRegister3.setError("Contact Number must be of 10 digits");
             exact_result = false ;
         }
+        if(phonenumber.length()!=10)
+        {
+            etPhoneNumberRegister.setError("Contact Number must be of 10 digits");
+            exact_result=false;
+        }
         return exact_result ;
     }
-
-
-
+    protected void onStart()
+    {
+        super.onStart();
+        SharedPreferences user_pref=getSharedPreferences("userPref",MODE_PRIVATE);
+        if(user_pref.contains("token"))
+        {
+            startActivity(new Intent(this,HomeActivity.class));
+            finish();
+        }
+    }
 }

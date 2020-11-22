@@ -48,7 +48,7 @@
             app:srcCompat="?android:attr/scrollbarThumbVertical" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilEmailLogin"
+            android:id="@+id/tilUserNameLogin"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -58,12 +58,12 @@
             android:textColorHint="@color/light_blue">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etEmailLogin"
+                android:id="@+id/etUserNameLogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="0dp"
-                android:hint="Email"
-                android:inputType="textEmailAddress" />
+                android:hint="UserName"
+                android:inputType="textAutoComplete" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

@@ -3,36 +3,40 @@ package com.example.wesafe;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.example.wesafe.UtilService.ApiCall;
+import com.example.wesafe.UtilService.GetResult;
 import com.google.android.material.textfield.TextInputLayout;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.HashMap;
+
+public class MainActivity extends AppCompatActivity{
     Button btnLogin ;
-    EditText etEmailLogin, etPasswordLogin ;
+    EditText etUsernameLogin, etPasswordLogin ;
     TextInputLayout tilPasswordLogin;
     ProgressBar progressBarLogin ;
     TextView tvRegister ;
+    ApiCall apiCall;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         btnLogin = findViewById(R.id.btnLogin);
-        etEmailLogin = findViewById(R.id.etEmailLogin) ;
+        etUsernameLogin = findViewById(R.id.etUserNameLogin) ;
         etPasswordLogin = findViewById(R.id.etPasswordLogin) ;
         tilPasswordLogin = findViewById(R.id.tilPasswordLogin) ;
         tvRegister = findViewById(R.id.tvRegister) ;
         progressBarLogin = findViewById(R.id.progressBarLogin);
+        apiCall= new ApiCall(this);
         progressBarLogin.setVisibility(View.GONE);
-
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,19 +63,21 @@ public class MainActivity extends AppCompatActivity {
         moveTaskToBack(true); //it goes to background.
     }
 
-    //Expression Validations
-    private Boolean validateEmail() {
-        String val = etEmailLogin.getText().toString();
-        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+    private Boolean validateUsername() {
+        String val = etUsernameLogin.getText().toString();
+        String noWhiteSpace = "\\A\\w{4,20}\\z";
 
         if (val.isEmpty()) {
-            etEmailLogin.setError("Field cannot be empty");
+            etUsernameLogin.setError("Field cannot be empty");
             return false;
-        } else if (!val.matches(emailPattern)) {
-            etEmailLogin.setError("Invalid email address");
+        } else if (val.length() >= 15) {
+            etUsernameLogin.setError("Username too long");
+            return false;
+        } else if (!val.matches(noWhiteSpace)) {
+            etUsernameLogin.setError("White Spaces are not allowed");
             return false;
         } else {
-            etEmailLogin.setError(null);
+            etUsernameLogin.setError(null);
 //            etEmail.setErrorEnabled(false);
             return true;
         }
@@ -113,10 +119,8 @@ public class MainActivity extends AppCompatActivity {
 
     void Login() {
         progressBarLogin.setVisibility(View.VISIBLE);
-        String email = etEmailLogin.getText().toString().trim();
-        String password = etPasswordLogin.getText().toString().trim();
         boolean is_expressions_valid = true;
-        if (!validateEmail()) {
+        if (!validateUsername()) {
             progressBarLogin.setVisibility(View.GONE);
             is_expressions_valid = false;
         }
@@ -128,11 +132,36 @@ public class MainActivity extends AppCompatActivity {
                 }
             }, 3000);
             is_expressions_valid = false;
-            progressBarLogin.setVisibility(View.GONE);
         }
         if (is_expressions_valid) {
-            Toast.makeText(this,"Login Successful", Toast.LENGTH_LONG).show();
-            Log.wtf("MainActivity","Internal Expressions are valid") ;
+            String username = etUsernameLogin.getText().toString();
+            String password = etPasswordLogin.getText().toString();
+            HashMap<String,String> params=new HashMap<>();
+            params.put("username",username);
+            params.put("password",password);
+            String Endpoint="http://10.0.2.2:8080/users/login";
+            //String Endpoint="http://192.168.43.80:8080/users/login";
+            apiCall.PostCall(params,Endpoint,new GetResult(){
+                @Override
+                public void onSuccess(boolean check) {
+                    if(check)
+                    {
+                        startActivity(new Intent(MainActivity.this,HomeActivity.class));
+                        finish();
+                    }
+                }
+            });
+            progressBarLogin.setVisibility(View.GONE);
+        }
+    }
+    protected void onStart()
+    {
+        super.onStart();
+        SharedPreferences user_pref=getSharedPreferences("userPref",MODE_PRIVATE);
+        if(user_pref.contains("token"))
+        {
+            startActivity(new Intent(this,HomeActivity.class));
+            finish();
         }
     }
 }
