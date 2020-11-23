@@ -119,9 +119,9 @@ public class RegisterActivity extends AppCompatActivity{
             params.put("emergencyContact2",emergency_contact2);
             params.put("emergencyContact3",emergency_contact3);
             params.put("channel","sms");
-            String Endpoint="http://10.0.2.2:8080/users/signup";
-            //String Endpoint="http://192.168.43.80:8080/users/signup";
-            apiCall.PostCall(params, Endpoint, new GetResult() {
+            String Localhost_Endpoint="http://10.0.2.2:8080/users/signup";
+            String Cloud_EndPoint="https://wesafe-app.herokuapp.com/users/signup";
+            apiCall.PostCall(params,Cloud_EndPoint, new GetResult() {
                 @Override
                 public void onSuccess(boolean check) {
                     if(check)

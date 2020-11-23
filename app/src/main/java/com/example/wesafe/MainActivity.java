@@ -139,9 +139,9 @@ public class MainActivity extends AppCompatActivity{
             HashMap<String,String> params=new HashMap<>();
             params.put("username",username);
             params.put("password",password);
-            String Endpoint="http://10.0.2.2:8080/users/login";
-            //String Endpoint="http://192.168.43.80:8080/users/login";
-            apiCall.PostCall(params,Endpoint,new GetResult(){
+            String Localhost_Endpoint="http://10.0.2.2:8080/users/login";
+            String Cloud_EndPoint="https://wesafe-app.herokuapp.com/users/login";
+            apiCall.PostCall(params,Cloud_EndPoint,new GetResult(){
                 @Override
                 public void onSuccess(boolean check) {
                     if(check)

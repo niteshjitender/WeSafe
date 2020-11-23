@@ -58,9 +58,9 @@ public class RegisterActivity2 extends AppCompatActivity{
         progressBarRegister2.setVisibility(View.VISIBLE);
         HashMap<String,String> params=new HashMap<>();
         params.put("code",otp);
-        String EndPoint="http://10.0.2.2:8080/users/optVerify";
-        //String EndPoint="http://192.168.43.80:8080/users/optVerify";
-        apiCall.VerifiedPostCall(params, EndPoint, new GetResult() {
+        String Localhost_Endpoint="http://10.0.2.2:8080/users/optVerify";
+        String Cloud_EndPoint="https://wesafe-app.herokuapp.com/users/optVerify";
+        apiCall.VerifiedPostCall(params,Cloud_EndPoint, new GetResult() {
             @Override
             public void onSuccess(boolean check) {
                 if(check)
