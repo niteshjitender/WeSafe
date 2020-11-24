@@ -49,6 +49,7 @@ public class RegisterActivity2 extends AppCompatActivity{
             etOTPVerify.setError("OTP must be of 6 digits");
             exact_result = false ;
         }
+
         progressBarRegister2.setVisibility(View.GONE);
         return exact_result ;
     }
