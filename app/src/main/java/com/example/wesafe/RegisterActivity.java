@@ -15,7 +15,9 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.wesafe.UtilService.ApiCall;
+import com.example.wesafe.UtilService.DatabaseHelper;
 import com.example.wesafe.UtilService.GetResult;
+import com.example.wesafe.UtilService.SharedPreferenceClass;
 
 import java.util.HashMap;
 
@@ -24,6 +26,8 @@ public class RegisterActivity extends AppCompatActivity{
     EditText etUserNameRegister,etPhoneNumberRegister,etOTP,etPasswordRegister,etPasswordRegister2,etContactRegister,etContactRegister2,etContactRegister3 ;
     ProgressBar progressBarRegister ;
     ApiCall apiCall;
+    DatabaseHelper myDb;
+    SharedPreferenceClass sharedPreferenceClass;
 //    LinearLayout linearlayout_otp ;
 
     @Override
@@ -43,6 +47,8 @@ public class RegisterActivity extends AppCompatActivity{
         etContactRegister2 = findViewById(R.id.etContactRegister2) ;
         etContactRegister3 = findViewById(R.id.etContactRegister3) ;
         apiCall= new ApiCall(this);
+        myDb= new DatabaseHelper(this);
+        sharedPreferenceClass= new SharedPreferenceClass(this);
 
 //        progressBarRegister = findViewById(R.id.progressBarRegister) ;
 //        progressBarRegister.setVisibility(View.GONE);
@@ -105,31 +111,39 @@ public class RegisterActivity extends AppCompatActivity{
 
 
         if(is_expressions_valid) {
-            String username = etUserNameRegister.getText().toString();
+            final String username = etUserNameRegister.getText().toString();
             String phonenumber= etPhoneNumberRegister.getText().toString();
             String password = etPasswordRegister.getText().toString();
             String emergency_contact1 = etContactRegister.getText().toString();
             String emergency_contact2 = etContactRegister2.getText().toString();
             String emergency_contact3 = etContactRegister3.getText().toString();
-            HashMap<String,String> params=new HashMap<>();
-            params.put("username",username);
-            params.put("phonenumber",phonenumber);
-            params.put("password",password);
-            params.put("emergencyContact1",emergency_contact1);
-            params.put("emergencyContact2",emergency_contact2);
-            params.put("emergencyContact3",emergency_contact3);
-            params.put("channel","sms");
-            String Localhost_Endpoint="http://10.0.2.2:8080/users/signup";
-            String Cloud_EndPoint="https://wesafe-app.herokuapp.com/users/signup";
-            apiCall.PostCall(params,Cloud_EndPoint, new GetResult() {
-                @Override
-                public void onSuccess(boolean check) {
-                    if(check)
-                    {
-                        startActivity(new Intent(RegisterActivity.this,RegisterActivity2.class));
+            if(myDb.insertData(emergency_contact1,emergency_contact2,emergency_contact3,username))   // Inserting Data in local Storage
+            {
+                HashMap<String,String> params=new HashMap<>();
+                params.put("username",username);
+                params.put("phonenumber",phonenumber);
+                params.put("password",password);
+                params.put("emergencyContact1",emergency_contact1);
+                params.put("emergencyContact2",emergency_contact2);
+                params.put("emergencyContact3",emergency_contact3);
+                params.put("channel","sms");
+                String Localhost_Endpoint="http://10.0.2.2:8080/users/signup";
+                String Cloud_EndPoint="https://wesafe-app.herokuapp.com/users/signup";
+                apiCall.PostCall(params,Cloud_EndPoint, new GetResult() {
+                    @Override
+                    public void onSuccess(boolean check) {
+                        if(check)
+                        {
+                            sharedPreferenceClass.setValue_string("username",username);
+                            startActivity(new Intent(RegisterActivity.this,RegisterActivity2.class));
+                        }
                     }
-                }
-            });
+                });
+            }
+            else
+            {
+                Toast.makeText(getApplicationContext(),"Error while inserting data to local storage",Toast.LENGTH_LONG).show();
+            }
         }
     }
     //Expression Validation
