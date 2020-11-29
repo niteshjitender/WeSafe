@@ -67,4 +67,16 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
     }
+    public void startService(View v){
+//        String input = editTextInput.getText().toString() ;
+        Intent serviceIntent = new Intent(this, weSafeService.class) ;
+//        serviceIntent.putExtra("inputExtra", input) ;
+        startService(serviceIntent) ;
+    }
+
+    public void stopService(View v){
+
+        Intent serviceIntent = new Intent(this, weSafeService.class) ;
+        stopService(serviceIntent) ;
+    }
 }
