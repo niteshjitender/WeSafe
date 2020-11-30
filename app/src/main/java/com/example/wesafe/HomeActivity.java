@@ -31,6 +31,10 @@ public class HomeActivity extends AppCompatActivity {
         viewAll();
 
     }
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true); //it goes to background.
+    }
     protected void Logout()
     {
         logout.setOnClickListener(new View.OnClickListener() {

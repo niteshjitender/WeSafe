@@ -25,9 +25,12 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
                 android:layout_marginBottom="0dp"
-                android:background="@drawable/registration_top"
+                android:background="@drawable/registration_top_shadowless"
                 android:orientation="vertical">
 
                 <TextView
@@ -112,7 +115,7 @@
                         android:layout_marginTop="0dp"
                         android:layout_marginEnd="0dp"
                         android:textColorHint="@color/light_blue"
-                        android:visibility="visible"/>
+                        android:visibility="visible" />
 
                 </LinearLayout>
 
@@ -154,16 +157,16 @@
                         android:hint="Confirm Password"
                         android:inputType="textPassword"
                         android:textColorLink="#2B2B2B" />
-                </com.google.android.material.textfield.TextInputLayout>
 
-                <ImageView
-                    android:id="@+id/ivRegister2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="28dp"
-                    android:layout_marginTop="20dp"
-                    android:visibility="visible"
-                    app:srcCompat="?android:attr/scrollbarThumbVertical" />
+                    <ImageView
+                        android:id="@+id/ivRegister2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="28dp"
+                        android:layout_marginTop="20dp"
+                        android:visibility="visible"
+                        app:srcCompat="?android:attr/scrollbarThumbVertical" />
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
                     android:id="@+id/tvGuardiansRegister"
@@ -259,24 +262,24 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="right"
-                        android:background="@drawable/registration_base"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/registration_base_shadowless"
                         android:orientation="vertical">
 
                         <Button
                             android:id="@+id/btnRegister"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="28dp"
+                            android:layout_marginStart="14dp"
                             android:layout_marginTop="6dp"
-                            android:paddingLeft="22dp"
+                            android:layout_marginRight="14dp"
                             android:paddingTop="8dp"
-                            android:paddingRight="22dp"
                             android:paddingBottom="7dp"
                             android:text="Register"
                             android:textSize="17sp"
                             app:cornerRadius="20dp" />
                     </LinearLayout>
+
 
                 </LinearLayout>
 
