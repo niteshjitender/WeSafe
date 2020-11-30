@@ -6,45 +6,118 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/splashscreen1"
     tools:context=".HomeActivity">
 
-    <TextView
-        android:id="@+id/vsafe"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Welcome To VSafe"
-        android:textSize="36sp"
+    <LinearLayout
+        android:layout_width="387dp"
+        android:layout_height="675dp"
+        android:layout_marginTop="19dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="37dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <Button
-        android:id="@+id/logout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Logout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="600dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginBottom="0dp"
+            android:background="@drawable/registration_top"
+            android:orientation="vertical">
 
-    <Button
-        android:id="@+id/viewAllContact"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="View Contact"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/tvWeSafeMain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginBottom="0dp"
+                android:clickable="false"
+                android:fontFamily="@font/wrexham"
+                android:shadowColor="#000000"
+                android:shadowDx="-20"
+                android:shadowDy="20"
+                android:text="WeSafe"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="50sp" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Start Service"
-        android:onClick="startService"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Stop Service"
-        android:onClick="stopService"/>
+                <TextView
+                    android:id="@+id/tvWeSafeMain2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginBottom="0dp"
+                    android:layout_weight="1"
+                    android:clickable="false"
+                    android:fontFamily="@font/wrexham"
+                    android:shadowColor="#000000"
+                    android:shadowDx="-20"
+                    android:shadowDy="20"
+                    android:text="Welcome USer"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="20sp" />
+
+                <Button
+                    android:id="@+id/logout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="8dp"
+                    android:padding="2dp"
+                    android:paddingStart="2dp"
+                    android:paddingLeft="2dp"
+                    android:paddingTop="2dp"
+                    android:paddingEnd="2dp"
+                    android:paddingRight="2dp"
+                    android:paddingBottom="2dp"
+                    android:text="Logout"
+                    android:textSize="10sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/viewAllContact"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:text="View Contact"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:onClick="startService"
+                android:text="Start Service" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="40dp"
+                android:onClick="stopService"
+                android:text="Stop Service" />
+        </LinearLayout>
+
+    </LinearLayout>
+
 
 </LinearLayout>

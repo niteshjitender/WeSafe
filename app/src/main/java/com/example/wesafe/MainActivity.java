@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,9 +26,11 @@ public class MainActivity extends AppCompatActivity{
     ProgressBar progressBarLogin ;
     TextView tvRegister ;
     ApiCall apiCall;
+    public static MainActivity mThis = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mThis = this ;
         setContentView(R.layout.activity_main);
         btnLogin = findViewById(R.id.btnLogin);
         etUsernameLogin = findViewById(R.id.etUserNameLogin) ;
@@ -47,13 +50,8 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 final Intent intent_register = new Intent(getApplicationContext(), RegisterActivity.class) ;
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        progressBarLogin.setVisibility(View.GONE);
-                        startActivity(intent_register);
-                    }
-                }, 1500);
+                progressBarLogin.setVisibility(View.GONE);
+                startActivity(intent_register);
             }
         });
     }
@@ -131,9 +129,11 @@ public class MainActivity extends AppCompatActivity{
                     tilPasswordLogin.setPasswordVisibilityToggleEnabled(true);
                 }
             }, 3000);
+            progressBarLogin.setVisibility(View.GONE);
             is_expressions_valid = false;
         }
         if (is_expressions_valid) {
+            progressBarLogin.setVisibility(View.VISIBLE);
             String username = etUsernameLogin.getText().toString();
             String password = etPasswordLogin.getText().toString();
             HashMap<String,String> params=new HashMap<>();
@@ -149,9 +149,14 @@ public class MainActivity extends AppCompatActivity{
                         startActivity(new Intent(MainActivity.this,HomeActivity.class));
                         finish();
                     }
+                    else{
+                        Log.wtf("login","Some error in API call") ;
+                        progressBarLogin.setVisibility(View.GONE);
+                    }
+                    progressBarLogin.setVisibility(View.GONE);
+
                 }
             });
-            progressBarLogin.setVisibility(View.GONE);
         }
     }
     protected void onStart()

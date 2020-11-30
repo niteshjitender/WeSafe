@@ -50,8 +50,8 @@ public class RegisterActivity extends AppCompatActivity{
         myDb= new DatabaseHelper(this);
         sharedPreferenceClass= new SharedPreferenceClass(this);
 
-//        progressBarRegister = findViewById(R.id.progressBarRegister) ;
-//        progressBarRegister.setVisibility(View.GONE);
+        progressBarRegister = findViewById(R.id.progressBarRegister) ;
+        progressBarRegister.setVisibility(View.GONE);
 
 //        linearlayout_otp = findViewById(R.id.linearlayout_otp) ;
 //        linearlayout_otp.setVisibility(View.GONE);
@@ -86,31 +86,32 @@ public class RegisterActivity extends AppCompatActivity{
     }
 
     private void registerUser(){
-//        progressBarRegister.setVisibility(View.VISIBLE);
+        progressBarRegister.setVisibility(View.VISIBLE);
         boolean is_expressions_valid = true ;
         if(!validateUsername()){
-//            progressBarRegister.setVisibility(View.GONE);
+            progressBarRegister.setVisibility(View.GONE);
             is_expressions_valid = false;
         }
         if(false){
-//            progressBarRegister.setVisibility(View.GONE);
+            progressBarRegister.setVisibility(View.GONE);
             is_expressions_valid = false;
         }
         if(!validatePassword()){
-//            progressBarRegister.setVisibility(View.GONE);
+            progressBarRegister.setVisibility(View.GONE);
             is_expressions_valid = false;
         }
         if(!matchPassword()){
-//            progressBarRegister.setVisibility(View.GONE);
+            progressBarRegister.setVisibility(View.GONE);
             is_expressions_valid = false;
         }
         if(!checkContact()){
-//            progressBarRegister.setVisibility(View.GONE);
+            progressBarRegister.setVisibility(View.GONE);
             is_expressions_valid = false ;
         }
 
 
         if(is_expressions_valid) {
+            progressBarRegister.setVisibility(View.VISIBLE);
             final String username = etUserNameRegister.getText().toString();
             String phonenumber= etPhoneNumberRegister.getText().toString();
             String password = etPasswordRegister.getText().toString();
@@ -137,12 +138,14 @@ public class RegisterActivity extends AppCompatActivity{
                             sharedPreferenceClass.setValue_string("username",username);
                             startActivity(new Intent(RegisterActivity.this,RegisterActivity2.class));
                         }
+                        progressBarRegister.setVisibility(View.GONE);
                     }
                 });
             }
             else
             {
                 Toast.makeText(getApplicationContext(),"Error while inserting data to local storage",Toast.LENGTH_LONG).show();
+                progressBarRegister.setVisibility(View.GONE);
             }
         }
     }
