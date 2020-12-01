@@ -69,35 +69,43 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/tilPasswordLogin"
-            android:layout_width="250dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginEnd="40dp"
-            android:textColorHint="@color/light_blue"
-            app:passwordToggleEnabled="true">
+            android:orientation="vertical">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etPasswordLogin"
-                android:layout_width="match_parent"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilPasswordLogin"
+                android:layout_width="250dp"
                 android:layout_height="wrap_content"
-                android:hint="Password"
-                android:inputType="textPassword"
-                android:textColorLink="#2B2B2B" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="40dp"
+                android:textColorHint="@color/light_blue"
+                app:passwordToggleEnabled="true">
 
-        <TextView
-            android:id="@+id/tvResetPassword"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:clickable="true"
-            android:text="Forget Password"
-            android:textColor="@color/light_green"
-            android:textSize="18sp" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etPasswordLogin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Password"
+                    android:inputType="textPassword"
+                    android:textColorLink="#2B2B2B" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/tvResetPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="61dp"
+                android:clickable="true"
+                android:text="Forgot Password"
+                android:textColor="@color/light_green"
+                android:textSize="18sp" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

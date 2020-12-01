@@ -53,6 +53,12 @@ public class ChangePassword extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
+
     protected void changePassword(View v)
     {
         progressBarLogin.setVisibility(View.VISIBLE);
@@ -101,6 +107,7 @@ public class ChangePassword extends AppCompatActivity {
             });
         }
     }
+
     private Boolean validateOldPassword() {
         String val = etOldPasswordLogin.getText().toString();
         if (val.isEmpty()) {

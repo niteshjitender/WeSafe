@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,7 +17,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
-public class SendOptActivity extends AppCompatActivity {
+public class SendOtpActivity extends AppCompatActivity {
     ProgressBar progressBarRegister2 ;
     Button btnSendOTP;
     EditText etSendOTP;
@@ -44,6 +43,10 @@ public class SendOptActivity extends AppCompatActivity {
             }
         });
     }
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
     private Boolean checkMobileNumber(){
         String phonenumber = etSendOTP.getText().toString();
         boolean exact_result = true ;
@@ -67,7 +70,8 @@ public class SendOptActivity extends AppCompatActivity {
             @Override
             public void onSuccess(JSONObject data) {
                 sharedPreferenceClass.setValue_string("phone_number",mobile_number);
-                startActivity(new Intent(SendOptActivity.this,RegisterActivity2.class));
+                progressBarRegister2.setVisibility(View.GONE);
+                startActivity(new Intent(SendOtpActivity.this,RegisterActivity2.class));
             }
             public void onFailure(String err)
             {

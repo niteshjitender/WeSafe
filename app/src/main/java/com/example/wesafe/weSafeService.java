@@ -23,7 +23,7 @@ public class weSafeService extends android.app.Service {
 //        String input = intent.getStringExtra("inputExtra") ;
         RemoteViews collapsedView = new RemoteViews(getPackageName(),
                 R.layout.notification_layout);
-        Intent notificationIntent = new Intent(this,MainActivity.class) ;
+        Intent notificationIntent = new Intent(this,HomeActivity.class) ;
         PendingIntent pendingIntent = PendingIntent.getActivity(this,
                 0, notificationIntent, 0);
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID)

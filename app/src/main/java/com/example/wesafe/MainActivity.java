@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -70,7 +69,7 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 sharedPreferenceClass.setValue_string("resetPassword","true");
-                startActivity(new Intent(MainActivity.this,SendOptActivity.class));
+                startActivity(new Intent(MainActivity.this, SendOtpActivity.class));
             }
         });
     }
@@ -175,6 +174,7 @@ public class MainActivity extends AppCompatActivity{
                     {
                         Toast.makeText(getApplicationContext(),"Error while inserting data to local storage",Toast.LENGTH_LONG).show();
                     }
+
                     startActivity(new Intent(MainActivity.this,HomeActivity.class));
                     finish();
                 }
@@ -182,7 +182,8 @@ public class MainActivity extends AppCompatActivity{
                 {
                     progressBarLogin.setVisibility(View.GONE);
                     if(err.equals("Please Verify the Otp")) {
-                        startActivity(new Intent(MainActivity.this,SendOptActivity.class));
+                        progressBarLogin.setVisibility(View.GONE);
+                        startActivity(new Intent(MainActivity.this, SendOtpActivity.class));
                     }
                 }
             });
