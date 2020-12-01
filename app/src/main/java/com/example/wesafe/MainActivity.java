@@ -12,10 +12,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.wesafe.UtilService.ApiCall;
+import com.example.wesafe.UtilService.DatabaseHelper;
 import com.example.wesafe.UtilService.GetResult;
+import com.example.wesafe.UtilService.SharedPreferenceClass;
 import com.google.android.material.textfield.TextInputLayout;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 
@@ -25,7 +31,10 @@ public class MainActivity extends AppCompatActivity{
     TextInputLayout tilPasswordLogin;
     ProgressBar progressBarLogin ;
     TextView tvRegister ;
+    TextView tvResetPassword;
     ApiCall apiCall;
+    DatabaseHelper myDb;
+    SharedPreferenceClass sharedPreferenceClass;
     public static MainActivity mThis = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +46,11 @@ public class MainActivity extends AppCompatActivity{
         etPasswordLogin = findViewById(R.id.etPasswordLogin) ;
         tilPasswordLogin = findViewById(R.id.tilPasswordLogin) ;
         tvRegister = findViewById(R.id.tvRegister) ;
+        tvResetPassword=findViewById(R.id.tvResetPassword);
         progressBarLogin = findViewById(R.id.progressBarLogin);
         apiCall= new ApiCall(this);
+        sharedPreferenceClass=new SharedPreferenceClass(this);
+        myDb=new DatabaseHelper(this);
         progressBarLogin.setVisibility(View.GONE);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,6 +64,13 @@ public class MainActivity extends AppCompatActivity{
                 final Intent intent_register = new Intent(getApplicationContext(), RegisterActivity.class) ;
                 progressBarLogin.setVisibility(View.GONE);
                 startActivity(intent_register);
+            }
+        });
+        tvResetPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sharedPreferenceClass.setValue_string("resetPassword","true");
+                startActivity(new Intent(MainActivity.this,SendOptActivity.class));
             }
         });
     }
@@ -143,18 +162,28 @@ public class MainActivity extends AppCompatActivity{
             String Cloud_EndPoint="https://wesafe-app.herokuapp.com/users/login";
             apiCall.PostCall(params,Cloud_EndPoint,new GetResult(){
                 @Override
-                public void onSuccess(boolean check) {
-                    if(check)
+                public void onSuccess(JSONObject data) throws JSONException {
+                    if(myDb.getAllData().getCount()==0 && myDb.insertData(data.getString("emergencyContact1"),data.getString("emergencyContact2"),data.getString("emergencyContact3"),
+                            data.getString("username")))
                     {
-                        startActivity(new Intent(MainActivity.this,HomeActivity.class));
-                        finish();
+                        Toast.makeText(getApplicationContext(),"Emergency Contact stored to local Storage",Toast.LENGTH_LONG).show();
                     }
-                    else{
-                        Log.wtf("login","Some error in API call") ;
-                        progressBarLogin.setVisibility(View.GONE);
+                    else if(myDb.getAllData().getCount()>0) {
+                        Toast.makeText(getApplicationContext(),"Data Already Present",Toast.LENGTH_LONG).show();
                     }
+                    else
+                    {
+                        Toast.makeText(getApplicationContext(),"Error while inserting data to local storage",Toast.LENGTH_LONG).show();
+                    }
+                    startActivity(new Intent(MainActivity.this,HomeActivity.class));
+                    finish();
+                }
+                public void onFailure(String err)
+                {
                     progressBarLogin.setVisibility(View.GONE);
-
+                    if(err.equals("Please Verify the Otp")) {
+                        startActivity(new Intent(MainActivity.this,SendOptActivity.class));
+                    }
                 }
             });
         }

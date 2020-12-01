@@ -44,10 +44,9 @@ public class ApiCall extends Activity{
                     {
                         String token=response.getString("token");
                         sharedPreferenceClass.setValue_string("token",token);
-                        Log.wtf("Response","I have Returned");
                         Toast.makeText(CallingClassContext,response.getString("status"),Toast.LENGTH_SHORT).show();
                         // This is Called if Api responds successfully
-                        callback.onSuccess(true);
+                        callback.onSuccess(response.getJSONObject("data"));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -63,6 +62,7 @@ public class ApiCall extends Activity{
                         String res=new String(response.data, HttpHeaderParser.parseCharset(response.headers,"utf-8"));
                         JSONObject obj=new JSONObject(res);
                         Toast.makeText(CallingClassContext,obj.getJSONObject("err").getString("message"),Toast.LENGTH_SHORT).show();
+                        callback.onFailure(obj.getJSONObject("err").getString("message"));
                     }catch (JSONException | UnsupportedEncodingException je){
                         je.printStackTrace();
                     }
@@ -90,6 +90,63 @@ public class ApiCall extends Activity{
         RequestQueue requestQueue= Volley.newRequestQueue(CallingClassContext);
         requestQueue.add(jsonObjectRequest);
     }
+
+    public void CallWithoutToken(HashMap<String,String> params, String Endpoint,final GetResult callback)
+    {
+        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(Request.Method.POST, Endpoint,
+                new JSONObject(params), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    if(response.getBoolean("success"))
+                    {
+                        Toast.makeText(CallingClassContext,response.getString("status"),Toast.LENGTH_SHORT).show();
+                        // This is Called if Api responds successfully
+                        callback.onSuccess(response.getJSONObject("data"));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                NetworkResponse response=error.networkResponse;
+                if(error instanceof ServerError && response!=null)
+                {
+                    try {
+                        String res=new String(response.data, HttpHeaderParser.parseCharset(response.headers,"utf-8"));
+                        JSONObject obj=new JSONObject(res);
+                        Toast.makeText(CallingClassContext,obj.getJSONObject("err").getString("message"),Toast.LENGTH_SHORT).show();
+                        callback.onFailure(obj.getJSONObject("err").getString("message"));
+                    }catch (JSONException | UnsupportedEncodingException je){
+                        je.printStackTrace();
+                    }
+                }
+                else
+                {
+                    Log.wtf("Error",error.toString());
+                }
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String,String > headers=new HashMap<>();
+                headers.put("Content-Type","application/json");
+                return headers;
+            }
+        };
+        // Set the retry policy
+        int socketTime=5000;
+        RetryPolicy policy=new DefaultRetryPolicy(socketTime,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        jsonObjectRequest.setRetryPolicy(policy);
+
+        //request added
+        RequestQueue requestQueue= Volley.newRequestQueue(CallingClassContext);
+        requestQueue.add(jsonObjectRequest);
+    }
+
     // This is when we pass token in header
     public void VerifiedPostCall(HashMap<String,String> params, String Endpoint, final GetResult callback)
     {
@@ -103,7 +160,7 @@ public class ApiCall extends Activity{
                     {
                         Toast.makeText(CallingClassContext,response.getString("status"),Toast.LENGTH_SHORT).show();
                         Log.wtf("response",response.getString("status"));
-                        callback.onSuccess(true);
+                        callback.onSuccess(response.getJSONObject("data"));
                     }
                     else
                     {
@@ -123,6 +180,7 @@ public class ApiCall extends Activity{
                         String res=new String(response.data, HttpHeaderParser.parseCharset(response.headers,"utf-8"));
                         JSONObject obj=new JSONObject(res);
                         Toast.makeText(CallingClassContext,obj.getJSONObject("err").getString("message"),Toast.LENGTH_SHORT).show();
+                        callback.onFailure(obj.getJSONObject("err").getString("message"));
                     }catch (JSONException | UnsupportedEncodingException je){
                         je.printStackTrace();
                     }

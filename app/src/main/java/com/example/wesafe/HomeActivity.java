@@ -40,7 +40,8 @@ public class HomeActivity extends AppCompatActivity {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sharedPreferencesClass.clear();
+                SharedPreferences user_pref=getSharedPreferences("userPref",MODE_PRIVATE);
+                user_pref.edit().remove("token").commit();
                 startActivity(new Intent(HomeActivity.this,MainActivity.class));
                 finish();
             }
