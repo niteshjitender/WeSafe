@@ -3,6 +3,7 @@ package com.example.wesafe;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -45,6 +46,12 @@ public class SendOtpActivity extends AppCompatActivity {
     }
     @Override
     public void onBackPressed() {
+
+        SharedPreferences user_pref=getSharedPreferences("userPref",MODE_PRIVATE);
+        if(user_pref.contains("resetPassword"))
+        {
+            user_pref.edit().remove("resetPassword").commit();
+        }
         moveTaskToBack(true);
     }
     private Boolean checkMobileNumber(){
