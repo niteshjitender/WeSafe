@@ -3,6 +3,7 @@ package com.example.wesafe;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -98,9 +99,10 @@ public class ChangePassword extends AppCompatActivity {
             apiCall.CallWithoutToken(params, Cloud_EndPoint, new GetResult() {
                 @Override
                 public void onSuccess(JSONObject data) throws JSONException {
+                    SharedPreferences user_pref=getSharedPreferences("userPref",MODE_PRIVATE);
+                    user_pref.edit().remove("resetPassword").commit();
                     startActivity(new Intent(ChangePassword.this,MainActivity.class));
                 }
-
                 @Override
                 public void onFailure(String err) {
                 }

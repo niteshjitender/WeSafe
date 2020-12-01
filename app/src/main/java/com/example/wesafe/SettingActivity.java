@@ -11,8 +11,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.wesafe.UtilService.ApiCall;
 import com.example.wesafe.UtilService.DatabaseHelper;
+import com.example.wesafe.UtilService.GetResult;
 import com.example.wesafe.UtilService.SharedPreferenceClass;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 
 public class SettingActivity extends AppCompatActivity {
 
@@ -21,6 +28,7 @@ public class SettingActivity extends AppCompatActivity {
     SharedPreferenceClass sharedPreferenceClass;
     DatabaseHelper myDb;
     String emergencyContact1,emergencyContact2,emergencyContact3,username;
+    ApiCall apiCall;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +39,7 @@ public class SettingActivity extends AppCompatActivity {
         btnSaveUpdatedContact=findViewById(R.id.btnSaveUpdatedContact);
         sharedPreferenceClass=new SharedPreferenceClass(this);
         myDb=new DatabaseHelper(this);
+        apiCall=new ApiCall(this);
         setCurrentValueOfContact();
         btnSaveUpdatedContact.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,9 +77,26 @@ public class SettingActivity extends AppCompatActivity {
         String EmergencyContact1=etEmergencyContact1.getText().toString();
         String EmergencyContact2=etEmergencyContact2.getText().toString();
         String EmergencyContact3=etEmergencyContact3.getText().toString();
+        HashMap<String,String> params=new HashMap<>();
+        params.put("EmergencyContact1",EmergencyContact1);
+        params.put("EmergencyContact2",EmergencyContact2);
+        params.put("EmergencyContact3",EmergencyContact3);
+        params.put("Username",username);
+        String Localhost_Endpoint="http://10.0.2.2:8080/users/updateContact";
+        String Cloud_EndPoint="https://wesafe-app.herokuapp.com/users/updateContact";
         if(myDb.updateData(username,EmergencyContact1,EmergencyContact2,EmergencyContact3))
         {
-            Toast.makeText(getApplicationContext(),"Emergency Contact Successfully Updated",Toast.LENGTH_SHORT).show();
+            apiCall.VerifiedPostCall(params, Cloud_EndPoint, new GetResult() {
+                @Override
+                public void onSuccess(JSONObject data) throws JSONException {
+                    Toast.makeText(getApplicationContext(),"Emergency Contact Successfully Updated And Stored",Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onFailure(String err) {
+                    Toast.makeText(getApplicationContext(),"Error while Storing Updated Contact to CloudDatabase",Toast.LENGTH_SHORT).show();
+                }
+            });
         }
         else
         {
