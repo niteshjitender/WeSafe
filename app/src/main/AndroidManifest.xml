@@ -15,7 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ChangePassword"></activity>
+        <activity android:name=".SettingActivity"></activity>
+        <activity android:name=".ChangePassword" />
         <activity android:name=".SendOtpActivity" />
         <activity android:name=".HomeActivity" />
         <activity android:name=".RegisterActivity2" />

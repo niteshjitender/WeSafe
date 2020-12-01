@@ -19,6 +19,7 @@ public class HomeActivity extends AppCompatActivity {
     SharedPreferenceClass sharedPreferencesClass;
     DatabaseHelper myDb;
     Button btnviewAll;
+    Button btnSetting;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,9 +27,11 @@ public class HomeActivity extends AppCompatActivity {
         logout=(Button)findViewById(R.id.logout);
         sharedPreferencesClass=new SharedPreferenceClass(this);
         btnviewAll=(Button)findViewById(R.id.viewAllContact);
+        btnSetting=(Button)findViewById(R.id.btnSetting);
         myDb= new DatabaseHelper(this);
         Logout();
         viewAll();
+        setting();
 
     }
     @Override
@@ -44,6 +47,15 @@ public class HomeActivity extends AppCompatActivity {
                 user_pref.edit().remove("token").commit();
                 startActivity(new Intent(HomeActivity.this,MainActivity.class));
                 finish();
+            }
+        });
+    }
+    protected void setting()
+    {
+        btnSetting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomeActivity.this,SettingActivity.class));
             }
         });
     }
