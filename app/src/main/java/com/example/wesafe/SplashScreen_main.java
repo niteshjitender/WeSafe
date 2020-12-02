@@ -16,7 +16,7 @@ public class SplashScreen_main extends AppCompatActivity {
             @Override
             public void run() {
 
-                Intent intent_main = new Intent(getApplicationContext(), MainActivity.class);
+                Intent intent_main = new Intent(getApplicationContext(), WalkthroughActivity.class);
                 startActivity(intent_main);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 finish();

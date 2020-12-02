@@ -41,7 +41,7 @@ public class ChangePassword extends AppCompatActivity {
         etNewPasswordLogin = findViewById(R.id.etNewPasswordLogin) ;
         tilOldPasswordLogin = findViewById(R.id.tilOldPasswordLogin);
         tilNewPasswordLogin=findViewById(R.id.tilNewPasswordLogin);
-        progressBarLogin = findViewById(R.id.progressBarLogin);
+        progressBarLogin = findViewById(R.id.progressBarChangePassword);
         apiCall= new ApiCall(this);
         sharedPreferenceClass=new SharedPreferenceClass(this);
         myDb=new DatabaseHelper(this);

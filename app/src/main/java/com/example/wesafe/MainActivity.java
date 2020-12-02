@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity{
     DatabaseHelper myDb;
     SharedPreferenceClass sharedPreferenceClass;
     public static MainActivity mThis = null;
+    private SharedPreferences preferences ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +73,7 @@ public class MainActivity extends AppCompatActivity{
                 startActivity(new Intent(MainActivity.this, SendOtpActivity.class));
             }
         });
+        preferences = getSharedPreferences("PREFERENCE",MODE_PRIVATE);
     }
     //Overriding back button function : restarting of app
     @Override
@@ -174,7 +176,9 @@ public class MainActivity extends AppCompatActivity{
                     {
                         Toast.makeText(getApplicationContext(),"Error while inserting data to local storage",Toast.LENGTH_LONG).show();
                     }
-
+                    SharedPreferences.Editor editor = preferences.edit() ;
+                    editor.putString("FirstTimeInstall","Yes") ; // Key and value pair
+                    editor.apply();
                     startActivity(new Intent(MainActivity.this,HomeActivity.class));
                     finish();
                 }

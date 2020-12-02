@@ -26,6 +26,7 @@ public class RegisterActivity2 extends AppCompatActivity{
     EditText etOTPVerify;
     ApiCall apiCall;
     SharedPreferenceClass sharedPreferenceClass;
+    private SharedPreferences preferences ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +46,7 @@ public class RegisterActivity2 extends AppCompatActivity{
                 }
             }
         });
+        preferences = getSharedPreferences("PREFERENCE",MODE_PRIVATE);
     }
 
     private boolean verifyOTP(){
@@ -85,6 +87,9 @@ public class RegisterActivity2 extends AppCompatActivity{
                 else {
                     startActivity(new Intent(RegisterActivity2.this,MainActivity.class));
                 }
+                SharedPreferences.Editor editor = preferences.edit() ;
+                editor.putString("FirstTimeInstall","Yes") ; // Key and value pair
+                editor.apply();
                 finish();
             }
             public void onFailure(String err)
