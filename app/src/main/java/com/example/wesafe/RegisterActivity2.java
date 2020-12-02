@@ -56,7 +56,7 @@ public class RegisterActivity2 extends AppCompatActivity{
         {
             user_pref.edit().remove("resetPassword").commit();
         }
-        moveTaskToBack(true);
+//        moveTaskToBack(true);
     }
     private boolean verifyOTP(){
         String otp = etOTPVerify.getText().toString();

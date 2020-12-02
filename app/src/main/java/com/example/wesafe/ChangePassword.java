@@ -3,6 +3,7 @@ package com.example.wesafe;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -26,8 +27,8 @@ import java.util.HashMap;
 public class ChangePassword extends AppCompatActivity {
 
     Button btnLogin;
-    EditText etOldPasswordLogin, etNewPasswordLogin ;
-    TextInputLayout tilOldPasswordLogin,tilNewPasswordLogin;
+    EditText etPasswordLogin, etConfirmPasswordLogin ;
+    TextInputLayout tilPasswordLogin,tilConfirmPasswordLogin;
     ProgressBar progressBarLogin;
     ApiCall apiCall;
     DatabaseHelper myDb;
@@ -37,11 +38,11 @@ public class ChangePassword extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_password);
         btnLogin = findViewById(R.id.btnLogin);
-        etOldPasswordLogin = findViewById(R.id.etOldPasswordLogin) ;
-        etNewPasswordLogin = findViewById(R.id.etNewPasswordLogin) ;
-        tilOldPasswordLogin = findViewById(R.id.tilOldPasswordLogin);
-        tilNewPasswordLogin=findViewById(R.id.tilNewPasswordLogin);
-        progressBarLogin = findViewById(R.id.progressBarLogin);
+        etPasswordLogin = findViewById(R.id.etPasswordLogin) ;
+        etConfirmPasswordLogin = findViewById(R.id.etConfirmPasswordLogin) ;
+        tilPasswordLogin = findViewById(R.id.tilPasswordLogin);
+        tilConfirmPasswordLogin=findViewById(R.id.tilConfirmPasswordLogin);
+        progressBarLogin = findViewById(R.id.progressBarChangePassword);
         apiCall= new ApiCall(this);
         sharedPreferenceClass=new SharedPreferenceClass(this);
         myDb=new DatabaseHelper(this);
@@ -63,114 +64,130 @@ public class ChangePassword extends AppCompatActivity {
     {
         progressBarLogin.setVisibility(View.VISIBLE);
         boolean is_expressions_valid = true;
-        if (!validateOldPassword()) {
+        if (!validatePassword()) {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    tilOldPasswordLogin.setPasswordVisibilityToggleEnabled(true);
+                    tilPasswordLogin.setPasswordVisibilityToggleEnabled(true);
                 }
             }, 3000);
             progressBarLogin.setVisibility(View.GONE);
             is_expressions_valid = false;
         }
-        if (!validateNewPassword()) {
+        if (!validateConfirmPassword()) {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    tilNewPasswordLogin.setPasswordVisibilityToggleEnabled(true);
+                    tilConfirmPasswordLogin.setPasswordVisibilityToggleEnabled(true);
                 }
             }, 3000);
+            progressBarLogin.setVisibility(View.GONE);
+            is_expressions_valid = false;
+        }
+        if(!matchPassword())
+        {
             progressBarLogin.setVisibility(View.GONE);
             is_expressions_valid = false;
         }
         if(is_expressions_valid)
         {
             progressBarLogin.setVisibility(View.VISIBLE);
-            String oldPassword=etOldPasswordLogin.getText().toString();
-            String newPassword=etNewPasswordLogin.getText().toString();
+            String Password=etPasswordLogin.getText().toString();
             String phone_number=sharedPreferenceClass.getValue_string("phone_number");
             HashMap<String,String> params=new HashMap<>();
-            params.put("oldPassword",oldPassword);
-            params.put("newPassword",newPassword);
+            params.put("Password",Password);
             params.put("phonenumber",phone_number);
             String Localhost_Endpoint="http://10.0.2.2:8080/users/resetPassword";
             String Cloud_EndPoint="https://wesafe-app.herokuapp.com/users/resetPassword";
             apiCall.CallWithoutToken(params, Cloud_EndPoint, new GetResult() {
                 @Override
                 public void onSuccess(JSONObject data) throws JSONException {
+                    SharedPreferences user_pref=getSharedPreferences("userPref",MODE_PRIVATE);
+                    user_pref.edit().remove("resetPassword").commit();
                     startActivity(new Intent(ChangePassword.this,MainActivity.class));
                 }
-
                 @Override
                 public void onFailure(String err) {
                 }
             });
         }
     }
+    private Boolean matchPassword()
+    {
+        String val1 = etPasswordLogin.getText().toString();
+        String val2 = etConfirmPasswordLogin.getText().toString();
+        if (val1.equals(val2)) {
 
-    private Boolean validateOldPassword() {
-        String val = etOldPasswordLogin.getText().toString();
+            etConfirmPasswordLogin.setError(null);
+            return true;
+        } else {
+            etConfirmPasswordLogin.setError("Password should be same");
+            return false;
+        }
+    }
+    private Boolean validatePassword() {
+        String val = etPasswordLogin.getText().toString();
         if (val.isEmpty()) {
-            tilOldPasswordLogin.setPasswordVisibilityToggleEnabled(false);
-            etOldPasswordLogin.setError("Field cannot be empty");
+            tilPasswordLogin.setPasswordVisibilityToggleEnabled(false);
+            etPasswordLogin.setError("Field cannot be empty");
             //Delay for three seconds
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    tilOldPasswordLogin.setPasswordVisibilityToggleEnabled(true);
+                    tilPasswordLogin.setPasswordVisibilityToggleEnabled(true);
                 }
             }, 3000);
             return false;
         }
         else if (val.length() < 8) {
             //Hiding overlapping of password toggle and error icon
-            tilOldPasswordLogin.setPasswordVisibilityToggleEnabled(false);
-            etOldPasswordLogin.setError("Minimum length of Password should be 8");
+            tilPasswordLogin.setPasswordVisibilityToggleEnabled(false);
+            etPasswordLogin.setError("Minimum length of Password should be 8");
             //Delay for three seconds
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    tilOldPasswordLogin.setPasswordVisibilityToggleEnabled(true);
+                    tilPasswordLogin.setPasswordVisibilityToggleEnabled(true);
                 }
             }, 3000);
 
             return false;
         }
         else{
-            etOldPasswordLogin.setError(null);
+            etPasswordLogin.setError(null);
             return true;
         }
     }
-    private Boolean validateNewPassword() {
-        String val = etNewPasswordLogin.getText().toString();
+    private Boolean validateConfirmPassword() {
+        String val = etConfirmPasswordLogin.getText().toString();
         if (val.isEmpty()) {
-            tilNewPasswordLogin.setPasswordVisibilityToggleEnabled(false);
-            etNewPasswordLogin.setError("Field cannot be empty");
+            tilConfirmPasswordLogin.setPasswordVisibilityToggleEnabled(false);
+            etConfirmPasswordLogin.setError("Field cannot be empty");
             //Delay for three seconds
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    tilNewPasswordLogin.setPasswordVisibilityToggleEnabled(true);
+                    tilConfirmPasswordLogin.setPasswordVisibilityToggleEnabled(true);
                 }
             }, 3000);
             return false;
         }
         else if (val.length() < 8) {
             //Hiding overlapping of password toggle and error icon
-            tilNewPasswordLogin.setPasswordVisibilityToggleEnabled(false);
-            etNewPasswordLogin.setError("Minimum length of Password should be 8");
+            tilConfirmPasswordLogin.setPasswordVisibilityToggleEnabled(false);
+            etConfirmPasswordLogin.setError("Minimum length of Password should be 8");
             //Delay for three seconds
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    tilNewPasswordLogin.setPasswordVisibilityToggleEnabled(true);
+                    tilConfirmPasswordLogin.setPasswordVisibilityToggleEnabled(true);
                 }
             }, 3000);
 
             return false;
         }
         else{
-            etNewPasswordLogin.setError(null);
+            etConfirmPasswordLogin.setError(null);
             return true;
         }
     }
