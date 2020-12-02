@@ -48,7 +48,16 @@ public class RegisterActivity2 extends AppCompatActivity{
         });
         preferences = getSharedPreferences("PREFERENCE",MODE_PRIVATE);
     }
+    @Override
+    public void onBackPressed() {
 
+        SharedPreferences user_pref=getSharedPreferences("userPref",MODE_PRIVATE);
+        if(user_pref.contains("resetPassword"))
+        {
+            user_pref.edit().remove("resetPassword").commit();
+        }
+        moveTaskToBack(true);
+    }
     private boolean verifyOTP(){
         String otp = etOTPVerify.getText().toString();
         progressBarRegister2.setVisibility(View.VISIBLE);

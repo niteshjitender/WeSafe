@@ -16,6 +16,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity android:name=".WalkthroughActivity"></activity>
+        <activity android:name=".SettingActivity"></activity>
         <activity android:name=".ChangePassword" />
         <activity android:name=".SendOtpActivity" />
         <activity android:name=".HomeActivity" />

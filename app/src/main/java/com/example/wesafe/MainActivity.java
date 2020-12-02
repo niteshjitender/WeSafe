@@ -170,7 +170,7 @@ public class MainActivity extends AppCompatActivity{
                         Toast.makeText(getApplicationContext(),"Emergency Contact stored to local Storage",Toast.LENGTH_LONG).show();
                     }
                     else if(myDb.getAllData().getCount()>0) {
-                        Toast.makeText(getApplicationContext(),"Data Already Present",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Data Already Present",Toast.LENGTH_LONG).show();
                     }
                     else
                     {

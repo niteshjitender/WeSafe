@@ -61,9 +61,18 @@ public class ApiCall extends Activity{
                     try {
                         String res=new String(response.data, HttpHeaderParser.parseCharset(response.headers,"utf-8"));
                         JSONObject obj=new JSONObject(res);
-                        Toast.makeText(CallingClassContext,obj.getJSONObject("err").getString("message"),Toast.LENGTH_SHORT).show();
-                        callback.onFailure(obj.getJSONObject("err").getString("message"));
-                    }catch (JSONException | UnsupportedEncodingException je){
+                        if(obj.getJSONObject("err").has("message"))
+                        {
+                            Toast.makeText(CallingClassContext,obj.getJSONObject("err").getString("message"),Toast.LENGTH_SHORT).show();
+                            callback.onFailure(obj.getJSONObject("err").getString("message"));
+                        }
+                        else
+                        {
+                            Toast.makeText(CallingClassContext,"Unaccepted Server Error",Toast.LENGTH_SHORT).show();
+                            callback.onFailure("Unaccepted Server Error");
+                        }
+                    }
+                    catch (JSONException | UnsupportedEncodingException je){
                         je.printStackTrace();
                     }
                 }
@@ -81,7 +90,7 @@ public class ApiCall extends Activity{
             }
         };
         // Set the retry policy
-        int socketTime=5000;
+        int socketTime=15000;
         RetryPolicy policy=new DefaultRetryPolicy(socketTime,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         jsonObjectRequest.setRetryPolicy(policy);
@@ -117,8 +126,16 @@ public class ApiCall extends Activity{
                     try {
                         String res=new String(response.data, HttpHeaderParser.parseCharset(response.headers,"utf-8"));
                         JSONObject obj=new JSONObject(res);
-                        Toast.makeText(CallingClassContext,obj.getJSONObject("err").getString("message"),Toast.LENGTH_SHORT).show();
-                        callback.onFailure(obj.getJSONObject("err").getString("message"));
+                        if(obj.getJSONObject("err").has("message"))
+                        {
+                            Toast.makeText(CallingClassContext,obj.getJSONObject("err").getString("message"),Toast.LENGTH_SHORT).show();
+                            callback.onFailure(obj.getJSONObject("err").getString("message"));
+                        }
+                        else
+                        {
+                            Toast.makeText(CallingClassContext,"Unaccepted Server Error",Toast.LENGTH_SHORT).show();
+                            callback.onFailure("Unaccepted Server Error");
+                        }
                     }catch (JSONException | UnsupportedEncodingException je){
                         je.printStackTrace();
                     }
@@ -137,7 +154,7 @@ public class ApiCall extends Activity{
             }
         };
         // Set the retry policy
-        int socketTime=5000;
+        int socketTime=15000;
         RetryPolicy policy=new DefaultRetryPolicy(socketTime,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         jsonObjectRequest.setRetryPolicy(policy);
@@ -179,8 +196,16 @@ public class ApiCall extends Activity{
                     try {
                         String res=new String(response.data, HttpHeaderParser.parseCharset(response.headers,"utf-8"));
                         JSONObject obj=new JSONObject(res);
-                        Toast.makeText(CallingClassContext,obj.getJSONObject("err").getString("message"),Toast.LENGTH_SHORT).show();
-                        callback.onFailure(obj.getJSONObject("err").getString("message"));
+                        if(obj.getJSONObject("err").has("message"))
+                        {
+                            Toast.makeText(CallingClassContext,obj.getJSONObject("err").getString("message"),Toast.LENGTH_SHORT).show();
+                            callback.onFailure(obj.getJSONObject("err").getString("message"));
+                        }
+                        else
+                        {
+                            Toast.makeText(CallingClassContext,"Unaccepted Server Error",Toast.LENGTH_SHORT).show();
+                            callback.onFailure("Unaccepted Server Error");
+                        }
                     }catch (JSONException | UnsupportedEncodingException je){
                         je.printStackTrace();
                     }
@@ -196,7 +221,7 @@ public class ApiCall extends Activity{
             }
         };
         // Set the retry policy
-        int socketTime=5000;
+        int socketTime=15000;
         RetryPolicy policy=new DefaultRetryPolicy(socketTime,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
         jsonObjectRequest.setRetryPolicy(policy);

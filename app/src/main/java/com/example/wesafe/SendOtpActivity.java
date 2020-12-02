@@ -3,6 +3,7 @@ package com.example.wesafe;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -18,7 +19,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 
 public class SendOtpActivity extends AppCompatActivity {
-    ProgressBar progressBarRegister2 ;
+    ProgressBar progressBarSendOTP2 ;
     Button btnSendOTP;
     EditText etSendOTP;
     ApiCall apiCall;
@@ -27,10 +28,10 @@ public class SendOtpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_opt);
-        progressBarRegister2 = findViewById(R.id.progressBarRegister2) ;
+        progressBarSendOTP2 = findViewById(R.id.progressBarSendOTP2) ;
         etSendOTP = findViewById(R.id.etSendOTP) ;
         btnSendOTP = findViewById(R.id.btnSendOTP) ;
-        progressBarRegister2.setVisibility(View.GONE);
+        progressBarSendOTP2.setVisibility(View.GONE);
         sharedPreferenceClass=new SharedPreferenceClass(this);
         apiCall=new ApiCall(this);
         btnSendOTP.setOnClickListener(new View.OnClickListener() {
@@ -45,6 +46,12 @@ public class SendOtpActivity extends AppCompatActivity {
     }
     @Override
     public void onBackPressed() {
+
+        SharedPreferences user_pref=getSharedPreferences("userPref",MODE_PRIVATE);
+        if(user_pref.contains("resetPassword"))
+        {
+            user_pref.edit().remove("resetPassword").commit();
+        }
         moveTaskToBack(true);
     }
     private Boolean checkMobileNumber(){
@@ -60,7 +67,7 @@ public class SendOtpActivity extends AppCompatActivity {
     private void sendOTP(View v)
     {
         final String mobile_number = etSendOTP.getText().toString();
-        progressBarRegister2.setVisibility(View.VISIBLE);
+        progressBarSendOTP2.setVisibility(View.VISIBLE);
         HashMap<String,String> params=new HashMap<>();
         params.put("mobile_number",mobile_number);
         params.put("channel","sms");
@@ -70,12 +77,12 @@ public class SendOtpActivity extends AppCompatActivity {
             @Override
             public void onSuccess(JSONObject data) {
                 sharedPreferenceClass.setValue_string("phone_number",mobile_number);
-                progressBarRegister2.setVisibility(View.GONE);
+                progressBarSendOTP2.setVisibility(View.GONE);
                 startActivity(new Intent(SendOtpActivity.this,RegisterActivity2.class));
             }
             public void onFailure(String err)
             {
-                progressBarRegister2.setVisibility(View.GONE);
+                progressBarSendOTP2.setVisibility(View.GONE);
             }
         });
     }
