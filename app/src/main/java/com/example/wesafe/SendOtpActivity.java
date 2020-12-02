@@ -52,7 +52,7 @@ public class SendOtpActivity extends AppCompatActivity {
         {
             user_pref.edit().remove("resetPassword").commit();
         }
-        moveTaskToBack(true);
+//        moveTaskToBack(true);
     }
     private Boolean checkMobileNumber(){
         String phonenumber = etSendOTP.getText().toString();
